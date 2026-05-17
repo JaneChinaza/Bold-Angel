@@ -1,0 +1,105 @@
+.teams {
+    margin: 60px auto;
+    width: 90%;
+    max-width: 1200px;
+    display: flex;
+    align-items: flex-start; 
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.team {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+/* Image Wrapper: Height removed to prevent cropping */
+.team-img-container {
+    width: 100%;
+    position: relative;
+    display: flex;
+}
+
+.team-img-container img {
+    width: 100%;
+    height: auto; 
+    display: block;
+   
+}
+
+/* Text & Button Area Below Image */
+.team-info {
+    padding: 25px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-info h1 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #151f28;
+    margin-bottom: 6px;
+    font-family: sans-serif;
+}
+
+.team-info p {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 20px;
+    font-family: sans-serif;
+}
+
+/* Meet Button Component Style */
+.meet-btn {
+    background: transparent;
+    border: 1px solid #ffc000;
+    color: #151f28;
+    padding: 10px 24px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.meet-btn:hover {
+    background: #ffc000;
+    color:  #ffffff;
+}
+
+/* .......... Responsive Design Queries .......... */
+@media (max-width: 900px) {
+    .teams {
+        gap: 20px;
+    }
+    .team-info h1 {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .teams {
+        flex-direction: column;
+        width: 80%;
+        align-items: center;
+    }
+    .team {
+        width: 100%;
+        margin-bottom: 25px;
+    }
+}
