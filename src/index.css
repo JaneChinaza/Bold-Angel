@@ -1,53 +1,127 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap');
+/* global.css */
 
+/* 1. Import your custom font if using web fonts (Google Fonts, etc.) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+/* 2. Apply it globally to the body */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* 3. Force form items to inherit the body font */
+input, select, textarea, button {
+    font-family: inherit;
+}
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: "Outfit", sans-serif;
 }
-body{
-    background: #f5f5f5;
+#root p {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.75;
 }
+
+#root p * {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+}
+
+#root footer :where(p, a, li, span, label, input, textarea, button),
+#root .footer :where(p, a, li, span) {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.75;
+}
+
+body{
+    background: #ffffff;
+}
+
+html, body, #root {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevents ScrollReveal's "slide-in" distances from stretching the page */
+    box-sizing: border-box;
+}
+
+
 a{
     text-decoration: none;
     color: inherit;
     line-height: 1;
     cursor: pointer;
 }
-.container{
-    padding-left: 30px;
-    padding-right: 30px;
-}
-.btn{
-  background: #ffc000;
-  color: #ffffff;
-    padding: 14px 25px;
-    font-size: 16px;
-    border-radius: 30px;
-    cursor: pointer;
-    border: 0;
-    outline: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
 
+.standalone-page {
+    padding-top: 190px;
+    background: #ffffff;
 }
+
+.standalone-page.blog-page {
+    padding-top: 145px;
+}
+
+.blog-page .blog-section {
+    padding-top: 45px;
+}
+
+.standalone-page.services-page {
+    padding-top: 140px;
+}
+
+.services-page .services-section-wrapper {
+    padding-top: 40px;
+}
+
+@media (max-width: 840px) {
+    .standalone-page {
+        padding-top: 160px;
+    }
+
+    .standalone-page.blog-page {
+        padding-top: 125px;
+    }
+
+    .blog-page .blog-section {
+        padding-top: 35px;
+    }
+
+    .standalone-page.services-page {
+        padding-top: 125px;
+    }
+
+    .services-page .services-section-wrapper {
+        padding-top: 35px;
+    }
+}
+
 .btn img{
     width: 20px;
     margin-left: 10px;
 }
-
-
-
-/*....... media query......... */
-
-@media (max-width: 1200px){
-    .container{
-        padding-left: 5px;
-        padding-right: 5px;
-    }
-    .btn{
-        padding: 14px 22px;
-    }
+/* Add this to your main global App.css or index.css file */
+html, body {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Instantly stops horizontal site-shaking */
+    box-sizing: border-box;
 }
+
+*, *:before, *:after {
+    box-sizing: inherit; /* Forces elements to respect padding borders */
+}
+
+

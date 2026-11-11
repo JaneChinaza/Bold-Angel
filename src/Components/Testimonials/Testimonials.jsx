@@ -1,99 +1,48 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import './Testimonials.css'
-import next_icon from '../../assets/next-icon.png'
-import back_icon from '../../assets/back-icon.png'
 import user_1 from '../../assets/user-1.png'
 import user_2 from '../../assets/user-2.png'
 import user_3 from '../../assets/user-3.png'
-import user_4 from '../../assets/user-4.png'
+
+const reviews = [
+  {
+    name: 'Temi Francis.', role: 'Brand Owner', image: user_1,
+    quote: 'Working with Bold Angel Agency transformed the way our brand communicates. Their creativity, professionalism, and attention to detail helped us stand out and connect better with our audience.'
+  },
+  {
+    name: 'Paul Uchechukwu.', role: 'Entrepreneur', image: user_2,
+    quote: 'The team understood our vision from day one and brought it to life beautifully. From branding to media content, everything was delivered with excellence.'
+  },
+  {
+    name: 'Grace Asamua', role: 'Founder', image: user_3,
+    quote: 'Bold Angel Agency doesn\u2019t just create designs, they tell stories that leave lasting impressions. Their strategic approach gave our business a fresh and modern identity.'
+  }
+]
 
 const Testimonials = () => {
-
-        const slider = useRef();
-        let tx = 0;
-
-    const slideForward = ()=>{
-        if(tx > -50){
-            tx -= 25;
-        }
-        slider.current.style.transform = `translateX(${tx}%)`;
-    }
-    const slideBackward = ()=>{
-        if(tx < 0){
-            tx += 25;
-        }
-        slider.current.style.transform = `translateX(${tx}%)`;
-    }
-
-
   return (
-  
-  <div className='testimonials'>
-      <img src={next_icon} alt="" className='next-btn' onClick={slideForward} />
-      <img src={back_icon} alt="" className='back-btn' onClick={slideBackward} />
-      <div className='slider'>
-        <ul ref={slider}>
-            <li>
-                <div className="slide">
-                    <div className="user-info">
-                        <img src={user_1} alt="" />
-                        <div>
-                            <h3>Rose Keli M.,</h3>
-                            <span>Brand Owner</span>
-                        </div>
-                    </div>
-                    <p>“Working with Bold Angel Agency transformed 
-                        the way our brand communicates. 
-                        Their creativity, professionalism, and attention 
-                        to detail helped us stand out and connect better with our audience.”</p>
-                </div>
-            </li>
-            <li>
-                <div className="slide">
-                    <div className="user-info">
-                        <img src={user_2} alt="" />
-                        <div>
-                            <h3>Daniel A.,</h3>
-                            <span>Entrepreneur</span>
-                        </div>
-                    </div>
-                    <p>“The team understood our vision 
-                        from day one and brought it to life beautifully.
-                        From branding to media content, everything was delivered with excellence.”</p>
-                </div>
-            </li>
-            <li>
-                <div className="slide">
-                    <div className="user-info">
-                        <img src={user_3} alt="" />
-                        <div>
-                            <h3>Grace Ken</h3>
-                            <span>Founder</span>
-                        </div>
-                    </div>
-                    <p>“Bold Angel Agency doesn’t just create designs — they
-                        tell stories that leave lasting impressions.
-                        Their strategic approach gave our business a fresh and modern identity.</p>
-                </div>
-            </li>
-            <li>
-                <div className="slide">
-                    <div className="user-info">
-                        <img src={user_4} alt="" />
-                        <div>
-                            <h3>Michael O.,</h3>
-                            <span> Media Consultant</span>
-                        </div>
-                    </div>
-                    <p>“We needed a creative partner that truly 
-                        understood African storytelling and contemporary branding.
-                        Bold Angel exceeded our expectations.”</p>
-                </div>
-            </li>
-        </ul>
+    <section className="testimonials" id="testimonials" aria-labelledby="testimonials-heading">
+      <div className="testimonials-inner">
+        <div className="testimonials-intro">
+          <span className="testimonials-eyebrow">Testimonials</span>
+          <h2 id="testimonials-heading">What Our<br />Customers Say</h2>
+          <p>Bold ideas. Meaningful partnerships. Hear how we help our clients bring their brands to life.</p>
+        </div>
+        <div className="testimonials-cards" id="testimonial-cards">
+          {reviews.map((review, index) => (
+            <figure className={`testimonial-card${index === 1 ? ' testimonial-card-featured' : ''}`} key={review.name}>
+              <img className="testimonial-avatar" src={review.image} alt="" loading="lazy" />
+              <span className="testimonial-quote-mark" aria-hidden="true">&rdquo;</span>
+              <figcaption>
+                <div><h3>{review.name}</h3><span>{review.role}</span></div>
+              </figcaption>
+              <blockquote><p>{review.quote}</p></blockquote>
+            </figure>
+          ))}
+        </div>
+
       </div>
-      
-    </div> 
+    </section>
   )
 }
 

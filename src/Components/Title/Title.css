@@ -7,6 +7,10 @@
 }
 
 .title h2 {
+    font-family: 'Inter', Arial, sans-serif;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: normal;
     font-size: 32px;
     color: #000000;
     margin-top: 5px;
@@ -22,11 +26,11 @@
     color: #ffc000;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 400px) {
     .title {
     font-size: 10px;
 }
     .title h2 {
-        font-size: 22px;
+        font-size: 25px;
     }
      }

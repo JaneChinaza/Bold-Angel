@@ -1,0 +1,145 @@
+/* ─── CLIENT TICKER SECTION ROOT ─── */
+.client-ticker-section {
+    width: 100%;
+    background-color: #151f28; /* Pure canvas backdrop matches image_3a75a2.png structure */
+    padding: 50px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid rgba(15, 23, 42, 0.05);
+    border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+    position: relative;
+    z-index: 10;
+}
+
+/* Base containment aligns with your 1240px wide header and hero formats */
+.client-ticker-container {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 320px 1fr; /* Distinct typographic vs looping interaction columns */
+    align-items: center;
+    gap: 40px;
+}
+
+/* ─── LEFT TEXT TYPOGRAPHY ─── */
+.client-text-meta p {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0;
+    letter-spacing: -0.2px;
+}
+
+.client-text-meta p span {
+    color: #fdc013; /* Accents matching brand identity rules */
+}
+
+/* ─── CAROUSEL CARRIER WINDOW AND MASKING ─── */
+.client-carousel-window {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    /* Alpha-mask feathers left and right edges smoothly into the background */
+    mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+
+/* Tracks translation loop logic on a single layer line */
+.client-infinite-track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    gap: 80px; /* Space mapping between logo entities */
+    animation: clientLogosScrollLeft 25s linear infinite;
+}
+
+.client-logo-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 38px;
+    width: 130px;
+}
+
+.client-logo-item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    /* Subtle grayscale keeps branding minimal, transitioning to full color on hover */
+    filter: grayscale(100%) opacity(0.5);
+    transition: filter 0.3s cubic-bezier(0.25, 1, 0.5, 1), transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.client-logo-item img:hover {
+    filter: grayscale(0%) opacity(1);
+    transform: scale(1.05);
+}
+
+/* Smoothly pauses the scroll animation whenever a user hovers over the track */
+.client-carousel-window:hover .client-infinite-track {
+    animation-play-state: paused;
+}
+
+/* ─── INFINITE TRANSITION TIMELINES ─── */
+@keyframes clientLogosScrollLeft {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        /* Translates exactly 50% of the combined duplicated track length before resetting seamlessly */
+        transform: translateX(-50%);
+    }
+}
+
+/* ─── MEDIA MATRICES ─── */
+@media (max-width: 1024px) {
+    .client-ticker-container {
+        grid-template-columns: 280px 1fr;
+        gap: 24px;
+    }
+    .client-text-meta p {
+        font-size: 14px;
+    }
+    .client-infinite-track {
+        gap: 60px;
+    }
+}
+
+@media (max-width: 840px) {
+    .client-ticker-section {
+        padding: 40px 0;
+    }
+    .client-ticker-container {
+        grid-template-columns: 1fr; /* Stacks text directly above the marquee loop on tablets */
+        gap: 25px;
+        text-align: center;
+    }
+    .client-carousel-window {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .client-ticker-section {
+        padding: 35px 0;
+    }
+    .client-text-meta p {
+        font-size: 13px;
+        max-width: 280px;
+        margin: 0 auto;
+    }
+    .client-logo-item {
+        height: 32px;
+        width: 110px;
+    }
+    .client-infinite-track {
+        gap: 45px;
+    }
+}
