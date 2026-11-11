@@ -1,0 +1,54 @@
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hostinger-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Check deployment configuration
+        env:
+          FTP_HOST: ${{ secrets.HOSTINGER_FTP_HOST }}
+          FTP_USER: ${{ secrets.HOSTINGER_FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
+          FTP_DIR: ${{ secrets.HOSTINGER_FTP_DIRECTORY }}
+          FORM_KEY: ${{ secrets.VITE_WEB3FORMS_ACCESS_KEY }}
+        run: |
+          for name in FTP_HOST FTP_USER FTP_PASSWORD FTP_DIR FORM_KEY; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Missing configuration: $name. See HOSTINGER.md for repository secret names."
+              exit 1
+            fi
+          done
+      - run: npm ci
+      - name: Check uploader behavior
+        run: python3 -m unittest discover -s scripts -p 'test_*.py'
+      - name: Build website
+        run: npm run build
+        env:
+          VITE_WEB3FORMS_ACCESS_KEY: ${{ secrets.VITE_WEB3FORMS_ACCESS_KEY }}
+      - name: Upload built website over FTPS
+        run: python3 scripts/deploy_hostinger.py
+        env:
+          FTP_HOST: ${{ secrets.HOSTINGER_FTP_HOST }}
+          FTP_USER: ${{ secrets.HOSTINGER_FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
+          FTP_DIR: ${{ secrets.HOSTINGER_FTP_DIRECTORY }}

@@ -1,34 +1,39 @@
-# Automatic deployment to Hostinger
+# Automatic deployment to Hostinger regular web hosting
 
-Repository: https://github.com/JaneChinaza/Bold-Angel
+Every push to `main` runs `.github/workflows/deploy-hostinger.yml`, builds the
+React app, and uploads only `dist/` to your configured FTP directory using FTPS.
+A local commit alone does not publish the site.
 
-Production branch: `main`
+## One-time setup
 
-## Hostinger Web App hosting
+1. In Hostinger hPanel, open your website's **Dashboard → Files → FTP Accounts**.
+   Find the FTP server hostname, username, and password. Prefer a dedicated FTP
+   account scoped to this website's `public_html` directory.
+2. In GitHub, open **JaneChinaza/Bold-Angel → Settings → Secrets and variables →
+   Actions → New repository secret** and add these five secrets:
 
-Connect the repository through the GitHub integration in hPanel and select `main`.
-Use these build settings:
-
-| Setting | Value |
+| Secret | Value |
 | --- | --- |
-| Framework | Vite / React |
-| Root directory | Repository root |
-| Node.js | 24 |
-| Install command (if requested) | `npm ci` |
-| Build command | `npm run build` |
-| Output directory | `dist` |
+| `HOSTINGER_FTP_HOST` | FTP server hostname only, without `ftp://` or a path. Use the hostname matching the server TLS certificate. |
+| `HOSTINGER_FTP_USERNAME` | FTP username from hPanel |
+| `HOSTINGER_FTP_PASSWORD` | FTP account password |
+| `HOSTINGER_FTP_DIRECTORY` | Existing website directory as seen after FTP login; commonly `/public_html/`, or `/` if the FTP account is already scoped to it |
+| `VITE_WEB3FORMS_ACCESS_KEY` | Web3Forms key registered to `info@boldangel.org`; same value as your local `.env.local` |
 
-Before deploying, add `VITE_WEB3FORMS_ACCESS_KEY` in the app's environment variables,
-using the key registered to `info@boldangel.org`. This variable is needed at build
-time. `.env.local` is intentionally excluded from Git, so it is not sent to GitHub.
+Do not guess the directory. It must point to this website's document root, where
+its live `index.html` belongs. Check it through an FTP client if unsure. Back up
+your current website in hPanel before the first deployment: matching build
+filenames, including `index.html`, will be replaced.
 
-Use the authenticated GitHub integration for automatic deployment, rather than
-uploading a ZIP. Confirm automatic deployment is enabled for `main` in hPanel.
-Build the app successfully on its preview address before assigning the live domain.
+3. Open **Actions → Deploy to Hostinger → Run workflow**, choosing `main`.
+4. Check that the build and upload succeed, then open your live website.
 
-The app uses hash routes, so no server rewrite rules are required.
+No Hostinger Git integration is necessary. The uploader uses explicit FTP over
+TLS on port 21 and validates the server certificate. It will not fall back to
+unencrypted FTP. If the server rejects TLS, confirm its supported connection
+details before changing the deployment method.
 
-## Publishing future changes
+## Future updates
 
 ```powershell
 git add .
@@ -36,14 +41,19 @@ git commit -m "Describe your changes"
 git push origin main
 ```
 
-A local commit does not publish the site. Hostinger rebuilds and deploys after
-the commit is pushed to the connected branch. Check the deployment log in hPanel.
+The workflow installs dependencies with `npm ci`, uses Node 24, builds with
+`npm run build`, and uploads `dist`. Source files and `.env.local` are not uploaded.
+The uploader preserves unrelated server files, including `.htaccess`, and old
+assets. It uploads assets first and replaces `index.html` last. Old hashed assets
+can be cleaned up later after old browser sessions no longer need them.
 
-## Existing regular web hosting
+Changes to repository secrets apply to the next workflow run. If email delivery
+configuration changes, rerun the workflow because Vite embeds it at build time.
 
-If your plan only provides File Manager / `public_html`, the source repository
-must be built before deployment. Do not deploy `src` directly to `public_html`.
-Use a GitHub Actions build and upload workflow configured for your hosting
-account, or connect a supported Web App hosting setup as described above.
+The app uses hash routes, so no new server rewrite rules are required. If an old
+WordPress `index.php` takes priority, check the document-root configuration in
+hPanel before removing or changing existing server files.
 
-Official guide: https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger/
+References:
+- https://www.hostinger.com/support/1714427-how-to-find-ftp-details-on-hostinger-dashboard-at-hostinger/
+- https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets
